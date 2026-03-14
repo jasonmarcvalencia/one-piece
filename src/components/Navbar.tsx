@@ -35,7 +35,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "nav-blur" : "bg-transparent"}`}>
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${!scrolled && pathname === "/" ? "bg-transparent" : "nav-blur"}`}>
       <nav className="container-main flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2 font-display text-xl text-foreground">
           <Anchor className="h-5 w-5 text-primary" />
