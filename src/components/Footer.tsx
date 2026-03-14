@@ -28,7 +28,7 @@ const Footer = () => (
         <div>
           <h4 className="text-sm font-display mb-3">Disclaimer</h4>
           <p className="text-sm text-secondary-foreground/70">
-            One Piece is created by Eiichiro Oda and published by Shueisha. This is a non-commercial fan project made with ❤️ for the community.
+            One Piece is created by Eiichiro Oda and published by Shueisha. This is a non-commercial fan project built for the community.
           </p>
         </div>
       </div>

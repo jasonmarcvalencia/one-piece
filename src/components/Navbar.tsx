@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
-import { Menu, X, Anchor } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X, Anchor, Moon, Sun } from "lucide-react";
 
 const links = [
   { to: "/", label: "Home" },
@@ -13,6 +13,19 @@ const links = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("theme");
+      if (stored) return stored === "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    localStorage.setItem("theme", dark ? "dark" : "light");
+  }, [dark]);
 
   return (
     <header className="sticky top-0 z-50 nav-blur">
@@ -36,24 +49,42 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => setDark(!dark)}
+              className="text-muted-foreground hover:text-primary transition-colors duration-150"
+              aria-label="Toggle dark mode"
+            >
+              {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </button>
+          </li>
         </ul>
 
         {/* Mobile toggle */}
-        <button
-          className="md:hidden text-foreground"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-3 md:hidden">
+          <button
+            onClick={() => setDark(!dark)}
+            className="text-foreground"
+            aria-label="Toggle dark mode"
+          >
+            {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
+          <button
+            className="text-foreground"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden nav-blur border-t border-border">
+        <div className="md:hidden nav-blur border-t border-border animate-fade-down">
           <ul className="container-main py-4 flex flex-col gap-3">
-            {links.map((l) => (
-              <li key={l.to}>
+            {links.map((l, i) => (
+              <li key={l.to} className="animate-fade-up opacity-0" style={{ animationDelay: `${i * 50}ms` }}>
                 <Link
                   to={l.to}
                   onClick={() => setOpen(false)}

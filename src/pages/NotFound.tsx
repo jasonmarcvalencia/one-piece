@@ -1,24 +1,26 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Layout from "@/components/Layout";
+import { Compass } from "lucide-react";
 
-const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
+const NotFound = () => (
+  <Layout>
+    <section className="section-padding flex items-center justify-center min-h-[60svh]">
       <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
+        <p className="font-display text-8xl text-primary mb-4">404</p>
+        <h1 className="font-display text-3xl text-foreground mb-2">Lost at Sea</h1>
+        <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+          This page doesn't exist. Even the best navigators lose their way on the Grand Line.
+        </p>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-body font-bold text-sm hover:bg-primary/90 active:scale-[0.97] transition-all duration-200"
+        >
+          <Compass className="h-4 w-4" />
+          Back to Home
+        </Link>
       </div>
-    </div>
-  );
-};
+    </section>
+  </Layout>
+);
 
 export default NotFound;

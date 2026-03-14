@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:onepiece.fandom.com)",
+      "WebSearch",
+      "Bash(curl -s -L -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://onepiece.fandom.com/wiki/Dracule_Mihawk\")"
+    ]
+  }
+}
