@@ -12,6 +12,7 @@ const links = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
   const [dark, setDark] = useState(() => {
     if (typeof window !== "undefined") {
@@ -27,8 +28,14 @@ const Navbar = () => {
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 nav-blur">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "nav-blur" : "bg-transparent"}`}>
       <nav className="container-main flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2 font-display text-xl text-foreground">
           <Anchor className="h-5 w-5 text-primary" />
