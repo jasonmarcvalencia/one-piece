@@ -124,6 +124,10 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-6px)" },
         },
+        "spin-in": {
+          "0%": { opacity: "0", transform: "rotate(-180deg) scale(0.5)" },
+          "100%": { opacity: "1", transform: "rotate(0deg) scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -140,6 +144,7 @@ export default {
         "pulse-soft": "pulse-soft 2s ease-in-out infinite",
         "shimmer": "shimmer 2s linear infinite",
         "float": "float 3s ease-in-out infinite",
+        "spin-in": "spin-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards",
       },
     },
   },

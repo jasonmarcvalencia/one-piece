@@ -45,7 +45,7 @@ const HomePage = () => {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-background/60 dark:bg-background/75" />
+        <div className="absolute inset-0 bg-background/80 dark:bg-background/85" />
 
         <div className="relative z-10 container-main py-16 md:py-24 w-full">
           <div className="max-w-2xl mx-auto text-center">

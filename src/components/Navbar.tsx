@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Menu, X, Anchor, Moon, Sun } from "lucide-react";
 
 const links = [
@@ -22,8 +22,53 @@ const Navbar = () => {
     }
     return false;
   });
+  const isFirstRender = useRef(true);
+
+  const toggleTheme = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    const btn = e.currentTarget;
+    const rect = btn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    // Use View Transitions API if available
+    if (document.startViewTransition) {
+      document.documentElement.style.setProperty("--reveal-x", `${x}px`);
+      document.documentElement.style.setProperty("--reveal-y", `${y}px`);
+      document.documentElement.style.setProperty("--reveal-r", `${endRadius}px`);
+
+      const transition = document.startViewTransition(() => {
+        setDark((prev) => !prev);
+      });
+
+      transition.ready.then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 500,
+            easing: "ease-in-out",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        );
+      });
+    } else {
+      // Fallback: just toggle without animation
+      setDark((prev) => !prev);
+    }
+  }, []);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
     document.documentElement.classList.toggle("dark", dark);
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
@@ -58,11 +103,13 @@ const Navbar = () => {
           ))}
           <li>
             <button
-              onClick={() => setDark(!dark)}
-              className="text-muted-foreground hover:text-primary transition-colors duration-150"
+              onClick={toggleTheme}
+              className="relative text-muted-foreground hover:text-primary transition-colors duration-150"
               aria-label="Toggle dark mode"
             >
-              {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              <span key={dark ? "sun" : "moon"} className="inline-block animate-spin-in">
+                {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </span>
             </button>
           </li>
         </ul>
@@ -70,11 +117,13 @@ const Navbar = () => {
         {/* Mobile toggle */}
         <div className="flex items-center gap-3 md:hidden">
           <button
-            onClick={() => setDark(!dark)}
+            onClick={toggleTheme}
             className="text-foreground"
             aria-label="Toggle dark mode"
           >
-            {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            <span key={dark ? "sun" : "moon"} className="inline-block animate-spin-in">
+              {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </span>
           </button>
           <button
             className="text-foreground"

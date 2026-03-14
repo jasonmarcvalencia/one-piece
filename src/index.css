@@ -183,8 +183,17 @@
   background-color: hsl(var(--muted-foreground) / 0.5);
 }
 
-/* View Transitions */
-@keyframes vt-fade-in { from { opacity: 0; } }
-@keyframes vt-fade-out { to { opacity: 0; } }
-::view-transition-old(root) { animation: 300ms var(--ease-out) both vt-fade-out; }
-::view-transition-new(root) { animation: 300ms var(--ease-out) both vt-fade-in; }
+/* Circular reveal theme transition */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
