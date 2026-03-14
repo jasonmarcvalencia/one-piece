@@ -40,12 +40,12 @@ const HomePage = () => {
   return (
     <Layout>
       {/* Hero — compact with search */}
-      <section className="relative overflow-hidden min-h-[70vh] flex items-center">
+      <section className="relative overflow-hidden h-screen flex items-center">
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-15"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/30 to-background" />
+        <div className="absolute inset-0 bg-background/60 dark:bg-background/75" />
 
         <div className="relative z-10 container-main py-16 md:py-24 w-full">
           <div className="max-w-2xl mx-auto text-center">
